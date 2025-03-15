@@ -15,7 +15,7 @@
 - The `expr_2021` fragment specifier has been added for backwards compatibility.
 -->
 
-- [フラグメント指定子] `expr` が `const` 式と `_` 式をサポートするようになりました。
+- [フラグメント指定子] `expr` が、`const` 式と `_` 式をサポートするようになりました。
 - 後方互換性のために、フラグメント指定子 `expr_2021` が追加されました。
 
 <!--
@@ -34,14 +34,14 @@
 As new syntax is added to Rust, existing `macro_rules` fragment specifiers are sometimes not allowed to match on the new syntax in order to retain backwards compatibility. Supporting the new syntax in the old fragment specifiers is sometimes deferred until the next edition, which provides an opportunity to update them.
 -->
 
-Rust に新しい文法を導入するとき、後方互換性を保つために既存の `macro_rules` フラグメント指定子が新しい記法に対応をサポートしないことがあります。
-新記法のサポートは次のエディションの更新まで保留されることがあるのです。
+Rust に新しい文法を導入するとき、後方互換性のために既存の `macro_rules` フラグメント指定子を新しい記法の対象外とする場合があります。
+すなわち、古いフラグメント指定子が新記法をサポートするのが、次のエディションの更新まで保留されることがあるのです。
 
 <!--
 Indeed this happened with [`const` expressions] added in 1.79 and [`_` expressions] added in 1.59. In the 2021 Edition and earlier, the `expr` fragment specifier does *not* match those expressions. This is because you may have a scenario like:
 -->
 
-1.79 で導入された [`const` 式]と 1.59 で導入された [`_` 式]は実際にそうされました。
+1.79 で導入された [`const` 式]と 1.59 で導入された [`_` 式]では実際にそのような決定がなされました。
 2021 エディション以前では、フラグメント指定子 `expr` はこれらの新記法にマッチ**しません**。
 理由は以下のコードを考えるとわかります。
 
@@ -73,8 +73,8 @@ fn main() {
 Here, in the 2021 Edition, the macro will match the *second* rule. If earlier editions had changed `expr` to match the newly introduced `const` expressions, then it would match the *first* rule, which would be a breaking change.
 -->
 
-2021 エディションではマクロは**後者**のルールにマッチします。
-以前のエディションで `expr` が新文法である `const` 式にマッチしてしまうようになるとマクロは**前者**のルールにマッチしてしまいます。
+2021 エディションでは、マクロは**後者**のルールにマッチします。
+2021 以前のエディションで `expr` が新文法である `const` 式にマッチしてしまうようになると、マクロは**前者**のルールにマッチするようになってしまいます。
 これは破壊的変更です。
 
 <!--
@@ -104,7 +104,7 @@ The [`edition_2024_expr_fragment_specifier`] lint will change all uses of the `e
 
 [`edition_2024_expr_fragment_specifier`] リントで、`expr` 指定子をすべて `expr_2021` に自動書き換えして、マクロの挙動が変わらないようにできます。
 このリントは、自動エディション移行に含まれる `rust-2024-compatibility` リントグループの一部です。
-コードを Rust 2024 に移行するには、以下を実行します。
+コードを Rust 2024 互換に移行するには、以下を実行します。
 
 ```sh
 cargo fix --edition
@@ -115,7 +115,7 @@ In *most* cases, you will likely want to keep the `expr` specifier instead, in o
 -->
 
 **ほとんどの**場合、`expr` 指定子から変えずに新記法をサポートするのが普通でしょう。
-マクロの定義を見返して、`const` や `_` にマッチしうるようなルールの重複がないかを再確認してください。
+マクロの定義を再確認して、`const` や `_` にマッチしうるようなルールの重複がないかを再確認してください。
 新記法をサポートしてよければ、リントの自動修正を戻せばよいです。
 
 <!--
