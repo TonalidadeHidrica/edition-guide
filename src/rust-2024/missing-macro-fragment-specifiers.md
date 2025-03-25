@@ -88,4 +88,4 @@ There is no automatic migration for this change. We expect that this style of ma
 
 これに対する自動移行は提供されていません。
 このようなマクロはまずないと思われます。
-このリントは Rust 1.17 から将来的非互換リントになり、Rust 1.20 からデフォルトで必ずエラーになり、1.82 からは依存ライブラリ中であっても警告が出るようになっています。
+このリントは Rust 1.17 から future-incompatible なリントになり、Rust 1.20 からデフォルトで必ずエラーになり、1.82 からは依存ライブラリ中であっても警告が出るようになっています。

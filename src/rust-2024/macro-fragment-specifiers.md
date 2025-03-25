@@ -35,13 +35,13 @@ As new syntax is added to Rust, existing `macro_rules` fragment specifiers are s
 -->
 
 Rust に新しい文法を導入するとき、後方互換性のために既存の `macro_rules` フラグメント指定子を新しい記法の対象外とする場合があります。
-すなわち、古いフラグメント指定子が新記法をサポートするのが、次のエディションの更新まで保留されることがあるのです。
+すなわち、古いフラグメント指定子の新記法のサポートが次の新エディションまで延期されることがあるのです。
 
 <!--
 Indeed this happened with [`const` expressions] added in 1.79 and [`_` expressions] added in 1.59. In the 2021 Edition and earlier, the `expr` fragment specifier does *not* match those expressions. This is because you may have a scenario like:
 -->
 
-1.79 で導入された [`const` 式]と 1.59 で導入された [`_` 式]では実際にそのような決定がなされました。
+1.79 で導入された [`const` 式]と 1.59 で導入された [`_` 式]では、実際にそのような決定がなされました。
 2021 エディション以前では、フラグメント指定子 `expr` はこれらの新記法にマッチ**しません**。
 理由は以下のコードを考えるとわかります。
 
@@ -102,7 +102,7 @@ In the 2024 Edition, `expr` specifiers now also match `const` and `_` expression
 The [`edition_2024_expr_fragment_specifier`] lint will change all uses of the `expr` specifier to `expr_2021` to ensure that the behavior of existing macros does not change. The lint is part of the `rust-2024-compatibility` lint group which is included in the automatic edition migration. In order to migrate your code to be Rust 2024 Edition compatible, run:
 -->
 
-[`edition_2024_expr_fragment_specifier`] リントで、`expr` 指定子をすべて `expr_2021` に自動書き換えして、マクロの挙動が変わらないようにできます。
+[`edition_2024_expr_fragment_specifier`] リントで、`expr` 指定子をすべて `expr_2021` に自動的に書き換え、マクロの挙動が変わらないようにできます。
 このリントは、自動エディション移行に含まれる `rust-2024-compatibility` リントグループの一部です。
 コードを Rust 2024 互換に移行するには、以下を実行します。
 
@@ -114,9 +114,9 @@ cargo fix --edition
 In *most* cases, you will likely want to keep the `expr` specifier instead, in order to support the new expressions. You will need to review your macro to determine if there are other rules that would otherwise match with `const` or `_` and determine if there is a conflict. If you want the new behavior, just revert any changes made by the lint.
 -->
 
-**ほとんどの**場合、`expr` 指定子から変えずに新記法をサポートするのが普通でしょう。
+**ほとんどの**場合、指定子を `expr` のままにしておき、新記法をサポートするべきでしょう。
 マクロの定義を再確認して、`const` や `_` にマッチしうるようなルールの重複がないかを再確認してください。
-新記法をサポートしてよければ、リントの自動修正を戻せばよいです。
+新記法をサポートしてもよければ、リントの自動修正を戻せばよいです。
 
 <!--
 Alternatively, you can manually enable the lint to find macros where you may need to update the `expr` specifier.
